@@ -11,6 +11,8 @@ plotData <-
     #               examples and pch=21 for the negative (circle) examples.
     #
     
+    plot(X[, 1], X[, 2], pch = c(21, 3)[factor(y)], 
+         xlab = axLables[1], ylab = axLables[2])
     
     # ----------------------------------------------------
 }

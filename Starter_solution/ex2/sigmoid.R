@@ -9,7 +9,7 @@ sigmoid <- function(z) {
   # ----------------------- YOUR CODE HERE -----------------------
   # Instructions: Compute the sigmoid of each value of z (z can be a matrix,
   #               vector or scalar).
+  apply(z, c(1,2), function(x) 1 / (1 + exp(-1 * x)))
   
-  g
   # ----------------------------------------------------
 }

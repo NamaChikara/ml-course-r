@@ -7,24 +7,24 @@ costFunction  <- function(X, y) {
     # Initialize some useful values
     m <- length(y); # number of training examples
     
-    # You need to return the following variable correctly
-    J <- 0
-    
     # ----------------------- YOUR CODE HERE -----------------------
     # Instructions: Compute the cost of a particular choice of theta.
     #               You should set J to the cost.
-
-    J
+    
+    h <- sigmoid(X %*% theta)
+    
+    (1 / m) * (-1 * t(y) %*% log(h) - t(1 - y) %*% log(1 - h))
+    
     # ----------------------------------------------------
   }
 }
 
 grad <- function(X, y) {
   #COSTFUNCTION Compute gradient for logistic regression
-    #   J <- COSTFUNCTION(theta, X, y) computes the gradient of the cost
-    #   w.r.t. to the parameters.
+  #   J <- COSTFUNCTION(theta, X, y) computes the gradient of the cost
+  #   w.r.t. to the parameters.
   function(theta) {
-
+    
     # You need to return the following variable correctly
     grad <- matrix(0,dim(as.matrix(theta)))
     m <- length(y)
@@ -35,8 +35,10 @@ grad <- function(X, y) {
     # Note: grad should have the same dimensions as theta
     #
     
+    h <- sigmoid(X %*% theta)
     
-    grad
+    (1 / m) * t(X) %*% (h - y)
+    
     # ----------------------------------------------------
     
   }
