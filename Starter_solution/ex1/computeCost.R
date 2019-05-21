@@ -13,7 +13,7 @@ computeCost  <- function(X, y, theta) {
   # Instructions: Compute the cost of a particular choice of theta
   #               You should set J to the cost.
   
-  (1 / 2 * m) * t(X %*% theta - y) %*% (X %*% theta - y)
+  (1 / (2 * m)) * t(X %*% theta - y) %*% (X %*% theta - y)
   
   # vectorized version.
   # (exactly the same with multivariate version. )

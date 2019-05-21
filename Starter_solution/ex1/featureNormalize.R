@@ -26,7 +26,12 @@ featureNormalize <- function(X) {
   # Hint: You might find the 'mean' and 'sd' functions useful.
   #
   
+  mu <- apply(X, 2, mean)
+  sigma <- apply(X, 2, sd)
+  sigma[sigma == 0] <- 1
   
+  X_norm <- apply(X, 1, function(x) { (x - mu) / sigma })
+  X_norm <- t(X_norm)
   
   list(X_norm = X_norm, mu = mu, sigma = sigma)
   # ------------------------------------------------------------

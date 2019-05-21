@@ -134,9 +134,11 @@ xx <- seq(0,5000,length.out=25)
 yy <- seq(1,5,length.out = 25)
 zz <- matrix(0,length(xx),length(yy))
 
-for (i in 1:length(xx))
-  for (j in 1:length(yy))
+for (i in 1:length(xx)) {
+  for (j in 1:length(yy)) {
     zz[i,j] <- cbind(1, (xx[i]-mu[1])/sigma[1],(yy[j]-mu[2])/sigma[2]) %*% theta
+  }
+}
 
 #MATLAB Like plane
 nbcol = 100

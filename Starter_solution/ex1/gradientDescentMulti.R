@@ -16,13 +16,14 @@ gradientDescentMulti <- function(X, y, theta, alpha, num_iters) {
     #       of the cost function (computeCostMulti) and gradient here.
     #
     
+    theta <- theta - (alpha / m) * t(X) %*% (X %*% theta - y)
+    
+    # Save the cost J in every iteration
+    J_history[iter] <- computeCostMulti(X, y, theta)
     
     }
     
     # ------------------------------------------------------------
-    
-    # Save the cost J in every iteration
-    J_history[iter] <- computeCostMulti(X, y, theta)
     
   list(theta = theta, J_history = J_history)
 }
