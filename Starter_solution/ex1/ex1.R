@@ -132,8 +132,9 @@ lines3d(theta_history[, 1], theta_history[, 2], J_history+10, col="red")
 # Contour plot
 # Plot J_vals as 20 contours spaced logarithmically between 0.01 and 100
 # logarithmic contours are denser near the center
-logspace <- function( d1, d2, n) 
+logspace <- function( d1, d2, n) {
             return(exp(log(10)*seq(d1, d2, length.out=n)))
+}
             #or return(10^seq(d1, d2, length.out=n))
 
 contour(theta0_vals, theta1_vals, J_vals, levels = logspace(-2, 3, 20), 

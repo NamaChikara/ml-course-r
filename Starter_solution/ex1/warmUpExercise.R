@@ -8,7 +8,7 @@ warmUpExercise  <- function() {
   #               In R, the final computed variable 
   #               will be returned as output.
   
-  A
+  diag(5)
   
   # -------------------------------------------
   

@@ -3,6 +3,8 @@ gradientDescent <- function(X, y, theta, alpha, num_iters) {
   #   theta <- GRADIENTDESENT(X, y, theta, alpha, num_iters) updates theta by
   #   taking num_iters gradient steps with learning rate alpha
   
+
+  
   # Initialize some useful values
   m <- length(y) # number of training examples
   J_history = rep(0,num_iters + 1)
@@ -20,7 +22,10 @@ gradientDescent <- function(X, y, theta, alpha, num_iters) {
     #       of the cost function (computeCost) and gradient here.
     #
     
+    theta = theta - (alpha / m) * t(X) %*% (X %*% theta - y)
     
+    theta_history[iter,] = t(theta)
+    J_history[iter] = computeCost(X, y, theta)
   }
   
   list(theta = theta, J_history = J_history, theta_history = theta_history)
