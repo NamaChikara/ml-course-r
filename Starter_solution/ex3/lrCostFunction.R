@@ -27,7 +27,18 @@ lrCostFunction <- function(X, y, lambda) {
     #       the cost function and gradient computations.
     #
     
-    J
+    h <- sigmoid(X %*% theta)
+    
+    # NOTE:
+    # We cannot do
+    #   costFunction <- (1 / m) * (-1 * t(y) %*% log(h) - t(1 - y) %*% log(1 - h))
+    # since we lose decimals of percision.
+    costFunction <- (-1 * t(y) %*% log(h) - t(1 - y) %*% log(1 - h)) / m
+    
+    # NOTE: the bias term, theta_0, is excluded.
+    regTerm <- lambda * (t(theta[-1]) %*% theta[-1]) / (2 * m)
+    
+    costFunction + regTerm 
     # --------------------------------------------------------------
   }
 }
@@ -66,10 +77,16 @@ lrGradFunction <- function(X, y, lambda) {
     #           temp(1) <- 0;   # because we don't add anything for j <- 0
     #           grad <- grad + YOUR_CODE_HERE (using the temp variable)
     #
+    #
+    h <- sigmoid(X %*% theta)
     
+    grad <- (t(X) %*% (h - y)) / m
     
+    # NOTE: the bias term, theta_0, is excluded.
+    regTerm <- (lambda / m) * c(0, theta[-1])
     
-    grad
+    grad + regTerm
+    
     # --------------------------------------------------------------
   }
 }

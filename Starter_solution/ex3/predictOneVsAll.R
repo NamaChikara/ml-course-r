@@ -26,7 +26,9 @@ predictOneVsAll  <- function(all_theta, X) {
   #       for each row.
   #
   
+  y <- sigmoid(X %*% t(all_theta))
   
-  p  
+  apply(y, 1, which.max)
+
   # --------------------------------------------------------------------------
 }

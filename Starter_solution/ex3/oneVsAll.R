@@ -45,6 +45,23 @@ oneVsAll <- function(X, y, num_labels, lambda) {
   #       ,control = list(maxit = 50))
   #
   
+  for (i in seq(1, num_labels)) {
+    initial_theta <- rep(0, n + 1)
+    
+    opt <- optim(
+      initial_theta, lrCostFunction(X, y == i, lambda),
+      gr = lrGradFunction(X, y == i, lambda), method = "BFGS",
+      control = list(maxit = 50)
+    )
+    
+    theta <- opt$par
+    
+    cat(sprintf("Iteration %d | Min Cost: %f\n", i, opt$value))
+    
+    all_theta[i, ] <- t(theta)
+  }
+
+  
   all_theta
   # --------------------------------------------------------------------------
   
