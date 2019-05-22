@@ -37,9 +37,37 @@ nnCostFunction  <-
       # Part 2: Implement regularization with the cost function.
       #
       #
+    
+      # y is a vector with the true class numbers that should be associated
+      #  with the rows in X.
+      # The output of the neural net, a3, is a matrix with dimensions 
+      #  (rows X) x num_classes.  Consider an example of the first row in case
+      #  num_classes = 3:
+      #   X = [0.56, 0.23, 0.76], a3 = [0.87, 0.32, 0.01], y = 1
+      # To calculate the error in a3, we need to put the true answer in the same
+      #  form: y -> [1, 0, 0]. That is, y -> Y, dim(Y) = dim(a3). 
+    
+      # y -> Y
+      I <- diag(num_labels)
+      Y <- matrix(0, m, num_labels)
       
+      for (i in 1:m) {
+        true_vec <- I[y[i], ]
+        Y[i, ] <- true_vec
+      }
       
-      J
+      # forward feed
+      a1 <- cbind(1, X)
+      z2 <- Theta1 %*% t(a1)
+      z2 <- t(z2)
+      a2 <- cbind(1, sigmoid(z2))
+      z3 <- Theta2 %*% t(a2)
+      z3 <- t(z3)
+      a3 <- sigmoid(z3)
+      
+      # calculate cost
+      sum(-Y * log(a3) - (1 - Y) * log(1 - a3)) / m
+      
     }
   }
 
