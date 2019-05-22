@@ -24,6 +24,27 @@ predict <- function(Theta1, Theta2, X) {
   #       can use apply(A, 1, max) to obtain the max for each row.
   #
   
-  p
+  # Suppose dim(X) = 5000 x 400, dim(Theta1) = 25 x 401, dim(Theta2) = 10 x 26.
+  # I.e. X has its features in rows, and the Theta1 weights for those features
+  # are also in rows. Thus, calculating Theta1 %*% X will not work, we need to
+  # do Theta1 %*% t(X).  The output of Theta1 %*% t(X) is then 25 x 5000 -- 
+  # the same step needs to be taken when calculating Theta2.
+  # 
+  # Process:
+  #   1) Set a(1) = [1, X] (add the bias layer)
+  #   2) Calculate z(2) = Theta1 %*% t(a(1)) (calculate first hidden layer)
+  #   3) Calculate a(2) = [1, g(z(2))] (calculate input to second hidden layer)
+  #   4) Calculate z(3) = Theta2 %*% t(a(2)) (calculate second hidden layer)
+  #   5) Calculate a(3) = g(z(3)) = h_theta(x) (calculate output layer)
+  
+  a1 <- cbind(1, X)
+  z2 <- Theta1 %*% t(a1)
+  z2 <- t(z2)
+  a2 <- cbind(1, sigmoid(z2))
+  z3 <- Theta2 %*% t(a2)
+  z3 <- t(z3)
+  a3 <- sigmoid(z3)
+  apply(a3, 1, which.max)
+
   # --------------------------------------------------------------------------
 }
