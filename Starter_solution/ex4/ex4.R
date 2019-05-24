@@ -121,7 +121,6 @@ line <- readLines(con = stdin(),1)
 #  Before you start implementing the neural network, you will first
 #  implement the gradient for the sigmoid function. You should complete the
 #  code in the sigmoidGradient.R file.
-#
 
 cat(sprintf('\nEvaluating sigmoid gradient...\n'))
 
@@ -172,7 +171,7 @@ line <- readLines(con = stdin(),1)
 cat(sprintf('\nChecking Backpropagation (w/ Regularization) ... \n'))
 
 #  Check gradients by running checkNNGradients
-lambda <- 3
+lambda <- 1
 checkNNGradients(lambda)
 
 # Also output the costFunction debugging values

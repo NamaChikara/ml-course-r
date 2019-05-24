@@ -66,8 +66,13 @@ nnCostFunction  <-
       a3 <- sigmoid(z3)
       
       # calculate cost
-      sum(-Y * log(a3) - (1 - Y) * log(1 - a3)) / m
+      cost <- sum(-Y * log(a3) - (1 - Y) * log(1 - a3)) / m
       
+      # add regularization -- do not regularize the terms that correspond to
+      # the bias (i.e. the first column of each matrix)
+      reg <- lambda * (sum(Theta1[, -1] ^ 2) + sum(Theta2[, -1] ^ 2)) / (2 * m)
+      
+      cost + reg
     }
   }
 
@@ -130,9 +135,46 @@ nnGradFunction  <-
       #               the regularization separately and then add them to Theta1_grad
       #               and Theta2_grad from Part 2.
       #
+      I <- diag(num_labels)
+      Y = matrix(0, m, num_labels)
+      for (i in 1:m) {
+        Y[i, ] = I[y[i], ]
+      }
       
+      # Set a1 = x
+      a1 <- cbind(1, X)
+      # Perform forward propogation to compute al for l = 2:3 = num_layers.
+      z2 <- Theta1 %*% t(a1)
+      z2 <- t(z2)
+      a2 <- cbind(1, sigmoid(z2))
+      z3 <- Theta2 %*% t(a2)
+      z3 <- t(z3)
+      a3 <- sigmoid(z3)
+      # Using y, compute d3 = a3 - y
+      d3 <- a3 - Y
+      # Compute d2 using di = (t(Theta_i)d_{i+1}) .* sigmoidGradient(ai)
+      # Note: dim(d3) = 5000 x 10, but the above calculation assumes we are looking
+      #       at a single 10 x 1 column vector for one d_3 value. The same orientation
+      #       problem is found with a2. To vectorize, do
+      #         (t(Theta_i) %*% t(d_{i+1})) .* sigmoidGradient(t(ai))
+      #       Since t(AB) = t(B)t(A), t(Theta_i)t(d_{i+1}) = d_{i+1}Theta_i, so
+      #       the following is equivalent:
+      #         (d_{i+1} %*% Theta_i) .* sigmoidGradient(ai)
+      d2 <- (d3 %*% Theta2) * sigmoidGradient(cbind(1, z2))
+      # Accumulate the gradient using Di = Di + d_{i+1}t(ai). Note that you should
+      # skip or remove the first column of d2 (the column corresponding to the
+      # bias term).
+      d2 <- d2[ , -1]
       
-      grad
+      D1 <- t(d2) %*% a1
+      D2 <- t(d3) %*% a2
+      
+      # Calculate the Theta gradients, including regularization.
+      Theta1_grad <- (D1 + lambda * cbind(0, Theta1[, -1])) / m
+      Theta2_grad <- (D2 + lambda * cbind(0, Theta2[, -1])) / m
+      
+      return(c(c(Theta1_grad), c(Theta2_grad)))
+      list(Theta1_grad = D1, Theta2_grad = D2)
       # -------------------------------------------------------------
     }
   }
